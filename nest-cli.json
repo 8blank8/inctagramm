@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/inctagramm/src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/inctagramm/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/inctagramm",
+  "projects": {
+    "inctagramm": {
+      "type": "application",
+      "root": "apps/inctagramm",
+      "entryFile": "main",
+      "sourceRoot": "apps/inctagramm/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/inctagramm/tsconfig.app.json"
+      }
+    },
+    "files": {
+      "type": "application",
+      "root": "apps/files",
+      "entryFile": "main",
+      "sourceRoot": "apps/files/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/files/tsconfig.app.json"
+      }
+    }
+  }
+}
