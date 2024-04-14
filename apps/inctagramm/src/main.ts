@@ -11,35 +11,35 @@ async function bootstrap() {
     },
   });
 
-  app.enableCors({
-    origin: [
-      'http://localhost:3000',
-      'http://localhost:3001',
-      'http://localhost:5173',
-      'http://localhost:8080',
-      'https://incubator-icta-trainee.uk/',
-    ],
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-  });
+  // app.enableCors({
+  //   origin: [
+  //     'http://localhost:3000',
+  //     'http://localhost:3001',
+  //     'http://localhost:5173',
+  //     'http://localhost:8080',
+  //     'https://incubator-icta-trainee.uk/',
+  //   ],
+  //   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  //   credentials: true,
+  // });
 
-  app.setGlobalPrefix('v1/api');
+  // app.setGlobalPrefix('v1/api');
 
-  const config = new DocumentBuilder()
-    .setTitle('Median')
-    .setDescription('The Median API description')
-    .setVersion('0.1')
-    .build();
+  // const config = new DocumentBuilder()
+  //   .setTitle('Median')
+  //   .setDescription('The Median API description')
+  //   .setVersion('0.1')
+  //   .build();
 
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('v1/api/documentation', app, document);
+  // const document = SwaggerModule.createDocument(app, config);
+  // SwaggerModule.setup('v1/api/documentation', app, document);
 
-  const MODE = process.env.MODE || 'production';
-  const PORT = process.env.PORT || 3000;
+  // const MODE = process.env.MODE || 'production';
+  // const PORT = process.env.PORT || 3000;
 
-  console.log(`Server listen on ${PORT} port in ${MODE} mode.`);
+  console.log(`Server listen on ${3001} port in ${20} mode.`);
 
-  await app.listen(PORT);
+  await app.listen(3001);
 }
 bootstrap();
 
