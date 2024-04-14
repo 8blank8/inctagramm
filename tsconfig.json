@@ -20,6 +20,9 @@
     "paths": {
       "@libs/*": [
         "libs/*"
+      ],
+      "@inctagramm/*": [
+        "apps/inctagramm/*"
       ]
     }
   }
