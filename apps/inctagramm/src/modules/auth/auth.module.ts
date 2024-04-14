@@ -13,6 +13,7 @@ import { ResetUserPasswordUseCase } from "./use-cases/recovery-password/reset-us
 import { JwtService } from "@nestjs/jwt";
 import { LogoutUserUseCase } from "./use-cases/logout/logout-user.use-case";
 import { RefreshTokenUseCase } from "./use-cases/refresh-token/refresh-token.use-case";
+import { CreateUserGoogleOauthUseCase } from "../user/use-cases/create/create-user-google-ouath.use-case";
 
 
 @Module({
@@ -31,6 +32,7 @@ import { RefreshTokenUseCase } from "./use-cases/refresh-token/refresh-token.use
         LogoutUserUseCase,
         ResetUserPasswordUseCase,
         RefreshTokenUseCase,
+        CreateUserGoogleOauthUseCase,
         MailService,
         JwtService,
     ]
