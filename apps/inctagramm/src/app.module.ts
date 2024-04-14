@@ -11,11 +11,14 @@ import { CustomResultInterceptor } from '../../../libs/interceptor/custom-result
 import { MailModule } from '../../../libs/mailer/mailer.module';
 import { DeviceModule } from './modules/device/device.module';
 import { JwtModule } from '@nestjs/jwt';
+import { GoogleStrategy } from '@libs/guards/google.guard';
+import { PassportModule } from '@nestjs/passport';
 
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(primaryPostgresConnectionOptions),
+    PassportModule,
     JwtModule,
     MailModule,
     AuthModule,
@@ -29,6 +32,7 @@ import { JwtModule } from '@nestjs/jwt';
       provide: APP_INTERCEPTOR,
       useClass: CustomResultInterceptor
     },
+    GoogleStrategy
   ],
 })
 export class AppModule { }
