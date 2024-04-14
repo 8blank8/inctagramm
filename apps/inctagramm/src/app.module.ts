@@ -17,22 +17,22 @@ import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(primaryPostgresConnectionOptions),
-    PassportModule,
-    JwtModule,
-    MailModule,
-    AuthModule,
-    UserModule,
-    DeviceModule
+    // TypeOrmModule.forRoot(primaryPostgresConnectionOptions),
+    // PassportModule,
+    // JwtModule,
+    // MailModule,
+    // AuthModule,
+    // UserModule,
+    // DeviceModule
   ],
   controllers: [AppController],
   providers: [
     AppService,
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: CustomResultInterceptor
-    },
-    GoogleStrategy
+    // {
+    //   provide: APP_INTERCEPTOR,
+    //   useClass: CustomResultInterceptor
+    // },
+    // GoogleStrategy
   ],
 })
 export class AppModule { }
