@@ -16,7 +16,8 @@ import { UserModule } from "../user/user.module";
         DeviceRepository
     ],
     exports: [
-        DeviceRepository
+        DeviceRepository,
+        CreateDeviceUseCase,
     ]
 })
 export class DeviceModule { }
