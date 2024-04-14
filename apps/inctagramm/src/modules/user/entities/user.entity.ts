@@ -5,10 +5,16 @@ import { DeviceEntity } from "../../device/entities/device.entity";
 
 @Entity()
 export class UserEntity extends BaseEntity {
-    @Column()
+    @Column({ unique: true })
     username: string
 
-    @Column()
+    @Column({ nullable: true })
+    firstname: string;
+
+    @Column({ nullable: true })
+    lastname: string;
+
+    @Column({ unique: true })
     email: string
 
     @Column({ default: false })
@@ -20,12 +26,15 @@ export class UserEntity extends BaseEntity {
     @Column({ nullable: true })
     passwordRecoveryCode: string | null
 
-    @Column()
-    passwordSalt: string
+    @Column({ nullable: true })
+    passwordSalt: string | null
 
-    @Column()
-    passwordHash: string
+    @Column({ nullable: true })
+    passwordHash: string | null
 
     @OneToMany(() => DeviceEntity, device => device.user)
     devices: DeviceEntity[]
+
+    @Column({ default: false })
+    isDelete: boolean;
 }
