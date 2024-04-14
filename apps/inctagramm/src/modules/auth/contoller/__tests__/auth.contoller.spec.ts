@@ -21,8 +21,8 @@ describe('auth', () => {
     let testSeeder: TestSeeder
 
     beforeAll(async () => {
-        ({ httpServer: _httpServer, app: app, queryRunner: _queryRunner, manager: manager } = await createAndConfigureAppForTests())
 
+        ({ httpServer: _httpServer, app: app, queryRunner: _queryRunner, manager: manager } = await createAndConfigureAppForTests())
         testSeeder = new TestSeeder(manager)
 
         await app.init()
@@ -188,12 +188,12 @@ describe('auth', () => {
 
     describe('login', () => {
         let userDto: CreateUserCommand;
-        let UserEntity: UserEntity;
+        let userEntity: UserEntity;
         let loginDto: LoginUserDto;
 
         beforeEach(async () => {
             userDto = testSeeder.getUserDto()
-            UserEntity = await testSeeder.createUser(userDto)
+            userEntity = await testSeeder.createUser(userDto)
 
             loginDto = {
                 email: userDto.email,
@@ -216,11 +216,18 @@ describe('auth', () => {
             })
             expect(refreshTokenCookie).not.toBe(null)
 
+            const findedUserWithDevices = await manager.findOne(UserEntity, {
+                where: { id: userEntity.id },
+                relations: { devices: true }
+            })
+
+            expect(findedUserWithDevices.devices.length).toBe(1)
+
             const devices = await manager.find(DeviceEntity, { relations: { user: true } })
             const device = devices[0]
 
             expect(device.title).toBe('test-agent')
-            expect(device.user.id).toBe(UserEntity.id)
+            expect(device.user.id).toBe(userEntity.id)
         })
 
         it('login user incorrect password', async () => {
