@@ -17,10 +17,13 @@ import { ResetUserPasswordUseCase } from "../use-cases/recovery-password/reset-u
 import { JwtAuthGuard } from "../../../../../../libs/guards/jwt.guard";
 import { LogoutUserUseCase } from "../use-cases/logout/logout-user.use-case";
 import { LogoutUserCommand } from "../use-cases/logout/dto/logout-user.command";
-import { ReqWithUser } from "@libs/types/req-with-user";
+import { ReqWithGoogleUser, ReqWithUser } from "@libs/types/req-with-user";
 import { JwtRefreshAuthGuard } from "@libs/guards/refresh-token.guard";
 import { RefreshTokenUseCase } from "../use-cases/refresh-token/refresh-token.use-case";
 import { RefreshTokenCommand } from "../use-cases/refresh-token/dto/refresh-token.command";
+import { AuthGuard } from "@nestjs/passport";
+import { CreateUserGoogleOauthUseCase } from "../../user/use-cases/create/create-user-google-ouath.use-case";
+import { CreateUserGoogleOauthCommand } from "../../user/use-cases/create/dto/create-user-google-ouath.command";
 
 @ApiTags('auth')
 @Controller('auth')
@@ -35,6 +38,7 @@ export class AuthContoller {
         private resetUserPasswordUseCase: ResetUserPasswordUseCase,
         private logoutUserUseCase: LogoutUserUseCase,
         private refreshTokenUseCase: RefreshTokenUseCase,
+        private createUserGoogleOauthUseCase: CreateUserGoogleOauthUseCase,
     ) { }
 
     @Post('/registration')
@@ -59,7 +63,7 @@ export class AuthContoller {
     }
 
     @Post('/login')
-    async lpgin(
+    async login(
         @Body() dto: LoginUserDto,
         @Req() req: Request,
         @Res() res: Response
@@ -139,5 +143,31 @@ export class AuthContoller {
                 data: { accessToken: result.value.accessToken },
                 errors: []
             })
+    }
+
+    @Get('/google')
+    @UseGuards(AuthGuard('google'))
+    async googleAuth(@Req() req: ReqWithGoogleUser) { }
+
+    @Get('/google-redirect')
+    @UseGuards(AuthGuard('google'))
+    async googleAuthRedirect(
+        @Req() req: ReqWithGoogleUser,
+        @Res() res: Response
+    ) {
+        const command: CreateUserGoogleOauthCommand = {
+            email: req.user.email,
+            firstname: req.user.firstname,
+            lastname: req.user.lastname,
+            userAgent: req.headers['user-agent']
+        }
+
+        const result = await this.createUserGoogleOauthUseCase.execute(command)
+        if (!result.isSuccess) return res.status(HttpStatus.BAD_REQUEST).redirect(`${process.env.FRONT_URL}/`)
+
+        return res
+            .cookie('refreshToken', result.value.refreshToken, { httpOnly: true, secure: true })
+            .status(HttpStatus.CREATED)
+            .redirect(`${process.env.FRONT_URL}/`)
     }
 }
