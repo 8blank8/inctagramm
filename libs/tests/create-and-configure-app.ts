@@ -1,11 +1,10 @@
-import { Test } from "@nestjs/testing";
-import { AppModule } from "../../apps/inctagramm/src/app.module";
 import * as cookieParser from 'cookie-parser';
 import { DataSource } from "typeorm";
 import { CreateTestModule } from "./create-test-module";
 
 
 export const createAndConfigureAppForTests = async () => {
+
     let moduleRef = await CreateTestModule()
         .compile();
 
