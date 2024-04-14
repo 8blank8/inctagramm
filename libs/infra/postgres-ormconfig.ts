@@ -10,36 +10,20 @@ export const allEntities = [
     DeviceEntity
 ]
 
-const isTest = process.env.NODE_ENV === 'test';
-
-console.log(process.env.PG_HOST_TEST)
+const isTest = process.env.MODE === 'develop';
+console.log(process.env[isTest ? 'PG_HOST_TEST' : 'PG_HOST'])
 export const primaryPostgresConnectionOptions: PostgresConnectionOptions = {
     name: "default",
     type: 'postgres',
-    host: process.env[
-        // isTest ? 
-        'PG_HOST_TEST'
-        //  : 'PRIMARY_PG_HOST'
+    host: process.env[isTest ? 'PG_HOST_TEST' : 'PG_HOST'
     ],
-    port: +process.env[
-        // isTest ?
-        'PG_PORT_TEST'
-        //   : 'PRIMARY_PG_PORT'
+    port: +process.env[isTest ? 'PG_PORT_TEST' : 'PG_PORT'
     ],
-    username: process.env[
-        // isTest ?
-        'PG_USER_TEST'
-        //   : 'PRIMARY_PG_USER'
+    username: process.env[isTest ? 'PG_USER_TEST' : 'PG_USER'
     ],
-    password: process.env[
-        // isTest ?
-        'PG_PASSWORD_TEST'
-        //  : 'PRIMARY_PG_PASSWORD'
+    password: process.env[isTest ? 'PG_PASSWORD_TEST' : 'PG_PASSWORD'
     ],
-    database: process.env[
-        // isTest ?
-        'PG_DATABASE_TEST'
-        //   : 'PRIMARY_DB_NAME'
+    database: process.env[isTest ? 'PG_DATABASE_TEST' : 'PG_DATABASE'
     ],
     entities: allEntities,
     synchronize: false,
@@ -48,9 +32,9 @@ export const primaryPostgresConnectionOptions: PostgresConnectionOptions = {
         max: 50,
         connectionTimeoutMillis: 10000
     },
-    // ssl: {
-    //     rejectUnauthorized: false,
-    // },
+    ssl: isTest ? null : {
+        rejectUnauthorized: true,
+    },
     migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
 };
 
