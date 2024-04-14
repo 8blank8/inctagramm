@@ -20,6 +20,7 @@ import { SendRecoveryPasswordCodeUseCase } from "../../apps/inctagramm/src/modul
 import { ResetUserPasswordUseCase } from "../../apps/inctagramm/src/modules/auth/use-cases/recovery-password/reset-user-password.use-case"
 import { LogoutUserUseCase } from "../../apps/inctagramm/src/modules/auth/use-cases/logout/logout-user.use-case"
 import { RefreshTokenUseCase } from "../../apps/inctagramm/src/modules/auth/use-cases/refresh-token/refresh-token.use-case"
+import { CreateUserGoogleOauthUseCase } from "@inctagramm/src/modules/user/use-cases/create/create-user-google-ouath.use-case"
 
 export class MailServiceMock {
     async sendEmailConfirmationMessage(email: string, query: string): Promise<void> {
@@ -56,6 +57,7 @@ export const CreateTestModule = () => {
             ResetUserPasswordUseCase,
             LogoutUserUseCase,
             RefreshTokenUseCase,
+            CreateUserGoogleOauthUseCase,
             {
                 provide: MailService,
                 useClass: MailServiceMock,
